@@ -4,25 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>惊蛰廉洁提醒</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: "Microsoft YaHei", sans-serif;
             line-height: 1.8;
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 0;
+            background: url('https://img.zcool.cn/community/01a0a75e71d817a801216518a3bd9f.jpg@1280w_1l_2o_100sh.jpg') no-repeat center center;
+            background-size: cover;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
         }
+        
         .container {
+            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.95);
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
         }
+        
         .container::before {
             content: '';
             position: absolute;
@@ -31,31 +46,38 @@
             right: 0;
             height: 5px;
             background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
+            background-size: 200% 100%;
             animation: rainbow 3s ease infinite;
         }
+        
         @keyframes rainbow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        
         .header {
             text-align: center;
             color: #333;
             margin-bottom: 30px;
             position: relative;
         }
+        
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             background: linear-gradient(120deg, #2196F3, #4CAF50);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: fadeIn 1.5s ease-out;
+            background-clip: text;
+            text-fill-color: transparent;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #555;
         }
+        
         .content {
             color: #444;
             position: relative;
@@ -63,6 +85,7 @@
             background: rgba(255,255,255,0.8);
             border-radius: 10px;
         }
+        
         .quote {
             border-left: 4px solid #4CAF50;
             padding: 20px;
@@ -74,9 +97,11 @@
             transform: translateX(0);
             transition: transform 0.3s ease;
         }
+        
         .quote:hover {
             transform: translateX(10px);
         }
+        
         .footer {
             text-align: right;
             margin-top: 30px;
@@ -84,49 +109,123 @@
             border-top: 2px dashed rgba(76,175,80,0.3);
             padding-top: 20px;
         }
+        
         ul {
             list-style: none;
             padding: 0;
         }
-        ul p {
-            padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 8px;
+        
+        .point {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
             background: rgba(76,175,80,0.05);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
-        ul p:hover {
-            background: rgba(76,175,80,0.1);
+        
+        .point:hover {
+            background: rgba(76,175,80,0.15);
             transform: translateX(10px);
         }
         
-        /* 添加响应式设计 */
+        .point::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: #4CAF50;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .point:hover::before {
+            transform: scaleY(1);
+        }
+        
+        /* 雷电动画 */
+        .lightning {
+            position: absolute;
+            top: -50px;
+            left: 20%;
+            width: 3px;
+            height: 50px;
+            background: #fff;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        @keyframes lightning {
+            0% { opacity: 0; transform: translateY(-50px); }
+            20% { opacity: 1; }
+            40% { opacity: 0; }
+            60% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(120vh); }
+        }
+        
+        /* 雨滴动画 */
+        .rain {
+            position: fixed;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .drop {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+        }
+        
+        @keyframes rain {
+            0% { opacity: 0; transform: translateY(0); }
+            50% { opacity: 0.7; }
+            100% { opacity: 0; transform: translateY(100vh); }
+        }
+        
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
             .container {
+                margin: 10px;
                 padding: 20px;
             }
+            
             .header h1 {
                 font-size: 2em;
+            }
+            
+            .content {
+                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="rain" id="rain"></div>
+    
+    <div class="container animate__animated animate__fadeIn">
+        <div class="lightning" id="lightning"></div>
+        
         <div class="header">
-            <h1>惊蛰廉洁提醒</h1>
-            <p>振兴实业党委</p>
+            <h1 class="animate__animated animate__fadeInDown">惊蛰廉洁提醒</h1>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">振兴实业党委</p>
         </div>
         
-        <div class="content">
+        <div class="content animate__animated animate__fadeIn animate__delay-1s">
             <p>亲爱的全体员工：</p>
             
             <p>今日惊蛰，万物复苏，春雷始动。在这个象征着新生与奋进的节气里，振兴实业党委向全体员工发出廉洁从业提醒。</p>
 
-            <div class="quote">
+            <div class="quote animate__animated animate__fadeInLeft animate__delay-2s">
                 <p>惊蛰雷动，警钟长鸣；</p>
                 <p>春雨润物，清廉为本。</p>
             </div>
@@ -134,18 +233,71 @@
             <p>惊蛰时节，是自然界生机勃发的重要时刻，也是我们重申廉洁承诺、强化廉洁意识的良机。让我们：</p>
 
             <ul>
-                <p>1. 以惊蛰之雷，警醒自省，保持清醒头脑；</p>
-                <p>2. 以春雨之润，涵养清廉，永葆廉洁本色；</p>
-                <p>3. 以萌动之机，砥砺前行，恪守职业操守。</p>
+                <div class="point animate__animated animate__fadeInUp animate__delay-2s">
+                    <p>1. 以惊蛰之雷，警醒自省，保持清醒头脑；</p>
+                </div>
+                <div class="point animate__animated animate__fadeInUp animate__delay-2s">
+                    <p>2. 以春雨之润，涵养清廉，永葆廉洁本色；</p>
+                </div>
+                <div class="point animate__animated animate__fadeInUp animate__delay-2s">
+                    <p>3. 以萌动之机，砥砺前行，恪守职业操守。</p>
+                </div>
             </ul>
 
             <p>在这充满希望的季节，让我们共同营造风清气正的工作环境，以实际行动践行廉洁自律准则，为企业的健康发展贡献力量。</p>
         </div>
 
-        <div class="footer">
+        <div class="footer animate__animated animate__fadeIn animate__delay-3s">
             <p>振兴实业党委</p>
             <p>2025年3月5日</p>
         </div>
     </div>
+
+    <script>
+        // 创建雷电效果
+        function createLightning() {
+            const lightning = document.getElementById('lightning');
+            lightning.style.left = Math.random() * 80 + 10 + '%';
+            lightning.style.opacity = '0';
+            lightning.style.animation = 'lightning 2s linear';
+            
+            setTimeout(() => {
+                lightning.style.animation = '';
+            }, 2000);
+            
+            setTimeout(createLightning, Math.random() * 5000 + 3000);
+        }
+        
+        // 创建雨滴效果
+        function createRaindrops() {
+            const rain = document.getElementById('rain');
+            
+            for (let i = 0; i < 50; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDuration = Math.random() * 1 + 1 + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.animation = 'rain ' + (Math.random() * 1 + 1) + 's linear infinite';
+                rain.appendChild(drop);
+            }
+        }
+        
+        // 点击效果
+        document.querySelectorAll('.point').forEach(point => {
+            point.addEventListener('click', function() {
+                this.classList.add('animate__animated', 'animate__pulse');
+                setTimeout(() => {
+                    this.classList.remove('animate__animated', 'animate__pulse');
+                }, 1000);
+            });
+        });
+        
+        // 页面加载完成后执行
+        window.addEventListener('load', function() {
+            setTimeout(createLightning, 2000);
+            createRaindrops();
+        });
+    </script>
 </body>
 </html>
